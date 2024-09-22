@@ -20,11 +20,12 @@ export default function Component() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const scrollToBottom = () => {
-    const threshold = 20; // line height
-    const rect = messageContainerRef.current?.getBoundingClientRect();
+    const threshold = 50; // line height
+    const rect = messagesEndRef.current?.getBoundingClientRect();
     const containerRect = messageContainerRef.current?.getBoundingClientRect();
     if (rect && containerRect) {
-      const isScrolledToBottom = rect.bottom - threshold >= containerRect.bottom;
+      const isScrolledToBottom = rect.bottom - threshold <= containerRect.bottom;
+      console.log('xxx', rect.bottom - threshold, containerRect.bottom, isScrolledToBottom);
       if (isScrolledToBottom) {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
       }
@@ -45,7 +46,7 @@ export default function Component() {
     // Simulate bot response
     while (count < 10) {
       count++;
-      const botMessage: Message = { id: messages.length + 2, text: "I'm processing your request...", isBot: true }
+      const botMessage: Message = { id: messages.length + 2 + count, text: "I'm processing your request...", isBot: true }
       setMessages(prev => [...prev, botMessage])
       await sleep(500);
 
